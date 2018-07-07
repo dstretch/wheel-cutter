@@ -7,6 +7,13 @@
 
 
 from guizero import App, Text,TextBox, PushButton, Window
+import RPi.GPIO as GPIO
+import time
+
+# Pin Definitons:
+enablePin = 2
+directionPin = 3
+pulsePin = 4
 
 #Global variables
 teethToCut = 60
@@ -40,10 +47,22 @@ def plus10teeth():
   teethToCut = teethToCut + 10
   lblTeethCut.value = teethToCut
 
+
+# pulse stepper by n pulses
+def moveStepper(pulses):
+  print("move stepper by " + str(pulses))
+  for x in range(pulses):
+    GPIO.output(pulsePin, GPIO.HIGH)
+    time.sleep(0.01)
+    GPIO.output(pulsePin, GPIO.LOW)
+    time.sleep(0.01)
+
+
 # advance to next tooth
 def nextTooth():
   global currentTooth
   print("next tooth " + str(currentTooth) + " steps = " + str(steps[currentTooth-1]))
+  moveStepper(steps[currentTooth-1])
   currentTooth = currentTooth + 1
   if currentTooth > teethToCut: currentTooth = 1
   lblCurrentTooth.value = currentTooth
@@ -78,7 +97,25 @@ def calculateSteps():
     #print("tooth " + str(x) + " then " + str(actual) + " current " + str(currentSteps)+ " total " + str(stepsSoFar) + " diff " + str(diff))
   print (steps)
 
-app = App(title="Wheel cutting by Mark Baird", width=300, height=100, layout="grid")
+  #enable the stepper ready ready for advancing
+  GPIO.output(enablePin, GPIO.HIGH)
+
+#App code starts running here!
+
+# setup gpio
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(enablePin, GPIO.OUT)
+GPIO.setup(directionPin, GPIO.OUT)
+GPIO.setup(pulsePin, GPIO.OUT)
+
+# disable stepper
+GPIO.output(enablePin, GPIO.LOW)
+
+# set direction
+GPIO.output(directionPin, GPIO.HIGH)
+
+app = App(title="Wheel cutting", width=300, height=100, layout="grid")
 
 #showing teeth to cut
 lblTeeth = Text(app, size=16, text="Teeth:", grid=[0,1])
