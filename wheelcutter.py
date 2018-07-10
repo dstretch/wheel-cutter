@@ -6,7 +6,7 @@
 # pip3 install guizero
 
 
-from guizero import App, Text,TextBox, PushButton, Window
+from guizero import App, Text,TextBox, PushButton, Window, yesno
 import RPi.GPIO as GPIO
 import time
 
@@ -100,6 +100,17 @@ def calculateSteps():
   #enable the stepper ready ready for advancing
   GPIO.output(enablePin, GPIO.HIGH)
 
+def closeCutting():
+  global currentTooth
+
+  reallySure = yesno("Question", "Do you really want to finish cutting?")
+  #only close if sure!
+  if reallySure == True:
+    cuttingWindow.hide()
+    currentTooth = 1
+    lblCurrentTooth.value = currentTooth
+
+
 #App code starts running here!
 
 # setup gpio
@@ -131,14 +142,15 @@ btnPlus10 = PushButton(app, command=plus10teeth, text="+10", grid=[5,1])
 btnGo = PushButton(app, command=calculateSteps, text="Go", grid=[3,2])
 
 #cutting window
-cuttingWindow = Window(app, title="Cutting teeth", layout="grid")
+cuttingWindow = Window(app, title="Cutting teeth", width=200, height=100, layout="grid")
 cuttingWindow.hide()
+cuttingWindow.on_close(closeCutting)
 app.focus()
 lblCurrentTooth = Text(cuttingWindow, size=16, text="1", grid=[0,0])
 lblOf = Text(cuttingWindow, size=16, text="of", grid=[1,0])
 lblTotalTeeth = Text(cuttingWindow, size=16, text="", grid=[2,0])
 lblTotalTeeth.value = teethToCut
-btnBack = PushButton(cuttingWindow, text="Back", grid=[0,1])
+#btnBack = PushButton(cuttingWindow, text="Back", grid=[0,1])
 btnNext = PushButton(cuttingWindow, command=nextTooth, text="Next", grid=[1,1])
-btnFinish = PushButton(cuttingWindow, text="Finish", grid=[2,1])
+#btnFinish = PushButton(cuttingWindow, text="Finish", grid=[2,1])
 app.display()
