@@ -51,11 +51,12 @@ def plus10teeth():
 # pulse stepper by n pulses
 def moveStepper(pulses):
   print("move stepper by " + str(pulses))
+  delay = 0.01
   for x in range(pulses):
     GPIO.output(pulsePin, GPIO.HIGH)
-    time.sleep(0.01)
+    time.sleep(delay)
     GPIO.output(pulsePin, GPIO.LOW)
-    time.sleep(0.01)
+    time.sleep(delay)
 
 
 # advance to next tooth
