@@ -109,6 +109,7 @@ def closeCutting():
     cuttingWindow.hide()
     currentTooth = 1
     lblCurrentTooth.value = currentTooth
+    GPIO.output(enablePin, GPIO.LOW)
 
 
 #App code starts running here!
