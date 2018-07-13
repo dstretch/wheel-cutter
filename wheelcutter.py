@@ -57,6 +57,8 @@ def moveStepper(pulses):
     time.sleep(delay)
     GPIO.output(pulsePin, GPIO.LOW)
     time.sleep(delay)
+    #accelerate motor until max delay is 0.005
+    if delay > 0.001 : delay = delay - 0.0005
 
 
 # advance to next tooth
@@ -73,6 +75,7 @@ def calculateSteps():
   global steps
   print ("calcuating steps")
   cuttingWindow.show(wait=True)
+  lblTotalTeeth.value = teethToCut
   steps.clear()
   minSteps = int(stepsPerRev / teethToCut)
   division = float(stepsPerRev) / teethToCut
