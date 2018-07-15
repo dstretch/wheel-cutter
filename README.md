@@ -18,3 +18,8 @@ The following list shows potential suppliers of the parts needed to make your ow
 
 Setting a new out of the box setup (NOOBS) Raspberry Pi is a simple operation achieved by following the instructions on this page: https://www.raspberrypi.org/help/noobs-setup/2/
 
+Now you have a basic functioning Raspberry Pi, you can clone the repository in preparation for running the Python application for controlling the stepper motor.  This is achieved by
+
+```
+type stuff:
+```
