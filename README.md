@@ -59,7 +59,7 @@ Successfully installed guizero-0.5.2 pillow-5.2.0
 pi@raspberrypi:~/wheel-cutter $ 
 ```
 
-Before getting too carried away with calbing up the stepper motor, I would recommend following a phased approach to connecting everythin up which should reduce th risk of frying your Pi!
+Before getting too carried away with cabling up the stepper motor, I would recommend following a phased approach to connecting everythin up which should reduce th risk of frying your Pi!  Take a look at this page: 
 
 You are now ready to run the wheel cutting application.  The can be run by typing in the following which will start the application:
 
