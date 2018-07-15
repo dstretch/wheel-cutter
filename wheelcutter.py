@@ -147,7 +147,7 @@ btnPlus10 = PushButton(app, command=plus10teeth, text="+10", grid=[5,1])
 btnGo = PushButton(app, command=calculateSteps, text="Go", grid=[3,2])
 
 #cutting window
-cuttingWindow = Window(app, title="Cutting teeth", width=200, height=100, layout="grid")
+cuttingWindow = Window(app, title="Dividing", width=200, height=100, layout="grid")
 cuttingWindow.hide()
 cuttingWindow.on_close(closeCutting)
 app.focus()
