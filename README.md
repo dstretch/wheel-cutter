@@ -2,6 +2,8 @@
 
 This repository is intended to compliment an article written for the Horological Journal (April 2019) and contains the Python source code for a Raspberry Pi to drive a stepper motor connected to a dividing head which in turn is used for wheel cutting.
 
+https://github.com/mbcoder/wheel-cutter/blob/master/April%20HJ%202019%20-%20V14%20-%20Raspberry%20Pi%20-%20V2.pdf
+
 ## Shopping List
 
 The following list shows potential suppliers of the parts needed to make your own stepper driver.
