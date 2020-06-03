@@ -17,7 +17,7 @@ pulsePin = 4
 
 #Global variables
 teethToCut = 60
-stepsPerRev = 8000
+stepsPerRev = 12000
 steps = []
 currentTooth = 1
 
