@@ -1,6 +1,8 @@
 # Wheel cutter
 
-This repository is intended to compliment an article written for the Horological Journal (not yet published) and contains the Python source code for a Raspberry Pi to drive a stepper motor connected to a dividing head which in turn is used for wheel cutting.
+This repository is intended to compliment an article written for the Horological Journal (April 2019) and contains the Python source code for a Raspberry Pi to drive a stepper motor connected to a dividing head which in turn is used for wheel cutting.
+
+https://github.com/mbcoder/wheel-cutter/blob/master/April%20HJ%202019%20-%20V14%20-%20Raspberry%20Pi%20-%20V2.pdf
 
 ## Shopping List
 
@@ -18,3 +20,51 @@ The following list shows potential suppliers of the parts needed to make your ow
 
 Setting a new out of the box setup (NOOBS) Raspberry Pi is a simple operation achieved by following the instructions on this page: https://www.raspberrypi.org/help/noobs-setup/2/
 
+Now you have a basic functioning Raspberry Pi, you can clone the repository in preparation for running the Python application for controlling the stepper motor.  Start by opening the Terminal window from the black ">_" icon at the top of the Raspberry Pi screen.  How type the following:
+
+```
+git clone https://github.com/mbcoder/wheel-cutter.git
+```
+
+When you press enter you should see the following happen:
+
+```
+Cloning into 'wheel-cutter'...
+remote: Counting objects: 44, done.
+remote: Compressing objects: 100% (34/34), done.
+remote: Total 44 (delta 23), reused 19 (delta 9), pack-reused 0
+Unpacking objects: 100% (44/44), done.
+pi@raspberrypi:~ $ 
+```
+
+Now change to the wheel-cutter directory which contains the application code you have just downloaded.
+
+```
+cd wheel-cutter/
+```
+
+You now need to run the setup script which will download the python GUI library you need for the application.  Type the following
+
+```
+./setup
+```
+
+You will see the following on the terminal window:
+```
+Collecting guizero
+  Downloading https://files.pythonhosted.org/packages/87/19/e8d1831fedc1328c39dacf9a9c5342ceed0315cf301aa2284cd09fc91e9e/guizero-0.5.2-py3-none-any.whl
+Collecting pillow>=5 (from guizero)
+  Downloading https://www.piwheels.org/simple/pillow/Pillow-5.2.0-cp35-cp35m-linux_armv7l.whl (1.1MB)
+    100% |████████████████████████████████| 1.1MB 17kB/s 
+Installing collected packages: pillow, guizero
+Successfully installed guizero-0.5.2 pillow-5.2.0
+pi@raspberrypi:~/wheel-cutter $ 
+```
+
+Before getting too carried away with cabling up the stepper motor, I would recommend following a phased approach to connecting everythin up which should reduce th risk of frying your Pi!  Take a look at this page: https://github.com/mbcoder/wheel-cutter/wiki/Connecting-it-up
+
+You are now ready to run the wheel cutting application.  The can be run by typing in the following which will start the application:
+
+```
+python3 wheelcutter.py
+```
