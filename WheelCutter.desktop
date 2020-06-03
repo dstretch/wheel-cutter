@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Wheel Cutter
+Icon=/home/pi/wheel-cutter/WheelIcon.png
+Exec=python3 ./wheel-cutter/wheelcutter.py
+StartupNotify=true
+Terminal=true
