@@ -2,18 +2,25 @@
 #version 1.0
 #Written by Mark Baird
 #
-#requires the following modules to be installed as follows:
-# pip3 install guizero
-
+# Version 1.1
+# Switched to GPIO Zero to enable running on Pi 5 
+# By David Stretch
+#
+# GPIO Zero and guizero are pre-installed on Raspberry Pi OS Desktop images
+# Other OS images might need to install them manually:
+#
+# sudo apt install python3-gpiozero
+# pip3 install guizero (pre-installed on Raspberry Pi OS Desktop)
 
 from guizero import App, Text,TextBox, PushButton, Window, yesno
-import RPi.GPIO as GPIO
+from gpiozero import Device, OutputDevice # Consider using a specific device class instead?
+from gpiozero.tools import booleanized, all_values
 import time
 
 # Pin Definitons:
-enablePin = 2
-directionPin = 3
-pulsePin = 4
+enable_pin_num = 3 # Board pin 2
+direction_pin_num = 5 # Board pin 3
+pulse_pin_num = 7 # Board pin 4
 
 #Global variables
 teethToCut = 60
@@ -53,10 +60,12 @@ def moveStepper(pulses):
   print("move stepper by " + str(pulses))
   delay = 0.01
   for x in range(pulses):
-    GPIO.output(pulsePin, GPIO.HIGH)
+    pulse_pin.on()
     time.sleep(delay)
-    GPIO.output(pulsePin, GPIO.LOW)
+    
+    pulse_pin.off()
     time.sleep(delay)
+    
     #accelerate motor until max delay is 0.005
     if delay > 0.001 : delay = delay - 0.0005
 
@@ -102,7 +111,7 @@ def calculateSteps():
   print (steps)
 
   #enable the stepper ready ready for advancing
-  GPIO.output(enablePin, GPIO.HIGH)
+  enable_pin.on()
 
 def closeCutting():
   global currentTooth
@@ -113,23 +122,25 @@ def closeCutting():
     cuttingWindow.hide()
     currentTooth = 1
     lblCurrentTooth.value = currentTooth
-    GPIO.output(enablePin, GPIO.LOW)
+    
+    enable_pin.off()
+    direction_pin.off()
+    pulse_pin.off()
+    Device.pin_factory.close()
 
 
 #App code starts running here!
 
-# setup gpio
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(enablePin, GPIO.OUT)
-GPIO.setup(directionPin, GPIO.OUT)
-GPIO.setup(pulsePin, GPIO.OUT)
+# set up GPIO
+enable_pin = OutputDevice(enable_pin_num)
+direction_pin = OutputDevice(direction_pin_num)
+pulse_pin = OutputDevice(pulse_pin_num)
 
 # disable stepper
-GPIO.output(enablePin, GPIO.LOW)
+enable_pin.off()
 
 # set direction
-GPIO.output(directionPin, GPIO.HIGH)
+direction_pin.on()
 
 app = App(title="Wheel cutting", width=300, height=100, layout="grid")
 
@@ -149,8 +160,10 @@ btnGo = PushButton(app, command=calculateSteps, text="Go", grid=[3,2])
 #cutting window
 cuttingWindow = Window(app, title="Dividing", width=200, height=100, layout="grid")
 cuttingWindow.hide()
-cuttingWindow.on_close(closeCutting)
+cuttingWindow.when_closed = closeCutting
+
 app.focus()
+
 lblCurrentTooth = Text(cuttingWindow, size=16, text="1", grid=[0,0])
 lblOf = Text(cuttingWindow, size=16, text="of", grid=[1,0])
 lblTotalTeeth = Text(cuttingWindow, size=16, text="", grid=[2,0])
