@@ -18,9 +18,9 @@ from gpiozero.tools import booleanized, all_values
 import time
 
 # Pin Definitons:
-enable_pin_num = 3 # Board pin 2
-direction_pin_num = 5 # Board pin 3
-pulse_pin_num = 7 # Board pin 4
+enable_pin_num = 2 # Board pin 3
+direction_pin_num = 3 # Board pin 5
+pulse_pin_num = 4 # Board pin 7
 
 #Global variables
 teethToCut = 60
