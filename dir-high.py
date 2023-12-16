@@ -1,19 +1,13 @@
-import RPi.GPIO as GPIO
-import time
+from gpiozero import Device, OutputDevice # Consider using a specific device class instead?
+from gpiozero.tools import booleanized, all_values
 
 # Pin Definitons:
-enablePin = 2
-directionPin = 3
-pulsePin = 4
+direction_pin_num = 3 # Board pin 5
 
-# setup gpio
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(enablePin, GPIO.OUT)
-GPIO.setup(directionPin, GPIO.OUT)
-GPIO.setup(pulsePin, GPIO.OUT)
-
-# set direction pin HIGH
-GPIO.output(directionPin, GPIO.HIGH)
+# set up GPIO
+direction_pin = OutputDevice(direction_pin_num)
 
 print ('setting DIR- : HIGH')
+
+# disable stepper
+direction_pin.on()
